@@ -41,7 +41,7 @@ def enzymeEliminator(dict1, dict2, rb):
 	"""Takes in two dictionaries which map restriction enzymes to number of times it cuts and determines whether they cut the same number or not"""
 	for key in dict2: #Changed from dict1 to dict2 - dict2 should have more REs that cut it, so its more comprehensive? Or it might not matter at all
 					  # ^^^ This assumption is not 100% true, but that doesn't matter for enzyme similarity, I think we're okay
-		if (dict1.has_key(key) and dict2.has_key(key)): #If the key exists in both dictionaries
+		if ( (dict1.has_key(key) and dict2.has_key(key)) and (dict1[key] == dict2[key]) ): #If the key exists in both dictionaries and cuts in the same spot
 			enzyme_list.remove(str(key)) #Typecast is required here otherwise an error is thrown - the key is not of type str and the list need str
 			restrictionbatch.remove(key) #Remove it	
 
@@ -78,15 +78,16 @@ def differentiability_determiner(comb_tup, sequence):
 			return False	
 	return True		
 
-def small_band_eliminator(comb_tup, sequence):
+def size_band_eliminator(comb_tup, sequence):
 	"""Eliminates tuples that create bands < 300 bp"""
 
 	bands_list = cut_to_size_converter(comb_tup, sequence)
+	print bands_list
 
-	for x in bands_list:
-		if (bands_list[x] < smallestSize):
-			return False
-	return True		
+	for x in range(0, len(bands_list)-1):
+		if ( (bands_list[x] < smallestSize) or (bands_list[x] > largestSize) ):
+			return True
+	return False		
 
 def cut_to_size_converter(comb_tup, sequence):
 	"""Converts cut sites into band lengths using combination tuples and a sequence as an input"""
@@ -109,12 +110,8 @@ def cut_to_size_converter(comb_tup, sequence):
 
 	#print sorted(cut_site_list)	
 	#print sorted(band_list)
-	return sorted(band_list) #And we return that	
-
-#	for x in range(0, list_size-2): Might use this to disregard cuts that are too small or too large
-#		temp_band = cut_site_list[x+1] - cut_site_list[x]
-#		if( (temp_band < smallestSize) or (temp_band > largestSize) ):
-
+	
+	return sorted(band_list) #And we return that
 
 def plasmidAnalysis(restrictionbatch, plasmid_WithInsert, plasmid_WithoutInsert):
 	"""Performs the analysis of everything"""
@@ -163,25 +160,27 @@ def plasmidAnalysis(restrictionbatch, plasmid_WithInsert, plasmid_WithoutInsert)
 	
 	refined_two_enzyme_list = []
 	for x in two_enzyme_list:
-		if((differentiability_determiner(x, plasmid_WithInsert)) == True and \
-			(differentiability_determiner(x, plasmid_WithoutInsert) == True)):
+		if( (differentiability_determiner(x, plasmid_WithInsert) == True) and \
+			(differentiability_determiner(x, plasmid_WithoutInsert) == True) and \
+			(size_band_eliminator(x, plasmid_WithInsert) == True) or \
+			(size_band_eliminator(x, plasmid_WithoutInsert) == True) ): #I use an 'or' because it is still differentiable if one flies off
 			
 			refined_two_enzyme_list.append(x)
 
 	refined_three_enzyme_list = []
 	for x in three_enzyme_list:
-		if((differentiability_determiner(x, plasmid_WithInsert)) == True and \
-			(differentiability_determiner(x, plasmid_WithoutInsert) == True)):
+		if( (differentiability_determiner(x, plasmid_WithInsert) == True) and \
+			(differentiability_determiner(x, plasmid_WithoutInsert) == True) and \
+			(size_band_eliminator(x, plasmid_WithInsert) == True) or \
+			(size_band_eliminator(x, plasmid_WithoutInsert) == True) ):
 			
-			refined_three_enzyme_list.append(x)
-
-
-			
+			refined_three_enzyme_list.append(x)		
 
 	print refined_two_enzyme_list
+	print '+++++++++++++++++++++++++++++++++++++++++++++++++++'
 	print refined_three_enzyme_list
-
+			
 plasmidAnalysis(restrictionbatch, plasmid_WithInsert, plasmid_WithoutInsert)
 
 #tempD = restrictionbatch.search(Seq('GAATTCGAATTC')) #These two lines, when the rb is EcoRI, show us that the dictionary produced has a list value if it cuts more than once
-#print tempD[EcoRI]
+#print tempD[EcoRI]	
