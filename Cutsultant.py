@@ -1,7 +1,6 @@
 import sys
 import time
 import itertools
-from StringIO import StringIO
 from Bio.Restriction import *
 from Bio.Seq import Seq
 from Bio.Alphabet.IUPAC import IUPACAmbiguousDNA
