@@ -218,7 +218,6 @@ def onePlasmidAnalysis(restrictionbatch, gene_sequence_one): #Make sure everythi
 	third_pick = None
 
 	#Outputs the three sets of enzymes that produce the most cuts
-	#TODO: The ranking system is a bit off - the output is right, but the order its doing it in is wrong, I believe.
 	for x in final_enzymes:
 		total_num_sites = number_of_cuts(x, gene_sequence_one)
 
