@@ -125,7 +125,7 @@ def twoPlasmidAnalysis(restrictionbatch, gene_sequence_two, gene_sequence_one):
 		combination_list = list(itertools.combinations(enzyme_list, n))
 
 		for x in combination_list:
-			if( (differentiability_determiner(x, gene_sequence_one) and differentiability_determiner(x, gene_sequence_two)) and \
+			if((differentiability_determiner(x, gene_sequence_one) and differentiability_determiner(x, gene_sequence_two)) and \
 			(size_band_eliminator(x, gene_sequence_two) and size_band_eliminator(x, gene_sequence_one)) ):
 			
 				final_enzymes.append(x)
@@ -198,17 +198,13 @@ def onePlasmidAnalysis(restrictionbatch, gene_sequence_one): #Make sure everythi
 	for n in range(1, max_enzymes+1): #TODO: Fix the range thing, make it user input perhaps?
 		combination_list = list(itertools.combinations(enzyme_list, n))
 		for x in combination_list:
-			if( differentiability_determiner(x, gene_sequence_one)) and \
+			if(differentiability_determiner(x, gene_sequence_one)) and \
 			(size_band_eliminator(x, gene_sequence_one)):
 				
 				final_enzymes.append(x)
 
 	#TODO: Wrap the above and the bottom in a helper function
-		
-
-	#TODO: Make user inputted boolean flags that will determine if they want more cuts, less enzymes, all options, etc. Also have options for
-	#max enzymes wanted (for n in range(1,x) where x is a user input)	
-
+	
 	first_place = 0	
 	second_place = 0
 	third_place = 0
@@ -260,7 +256,7 @@ elif(len(sys.argv) == 4):
 	twoPlasmidAnalysis(restrictionbatch, gene_sequence_two, gene_sequence_one)
 else:
 	print "The command line input was incorrect, please make it >>python Cutsultant7.py enzymes.txt seq1.fasta and if applicable add seq2.fasta after that"
-	
+
 print "Time to execute:", time.time() - start_time, "seconds"
 
 
