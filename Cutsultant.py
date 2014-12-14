@@ -2,6 +2,7 @@
 # Note: This is my first time trying to code in Python, so some inefficiencies/non-Pythonic things may exist. Feel free to suggest alternative implemenations
 # Note: Requires BioPython to run
 # Note: argument_handler() will overwrite the .fasta file - be aware of this.
+# Note: BioPython libraries (and subsequently this code) only produce accurate results for non-methylated DNA. 
 # TODO: Wrap the ideal enzyme generating part of the code into a helper function
 # TODO: Clean up the print statements
 # TODO: Create a GUI interface
