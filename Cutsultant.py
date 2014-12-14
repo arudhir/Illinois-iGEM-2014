@@ -1,3 +1,10 @@
+# Cutsultant is a quick script designed to generate the most optimal cuts for a restriction enzyme given a list of parameters
+# Note: This is my first time trying to code in Python, so some inefficiencies/non-Pythonic things may exist. Feel free to suggest alternative implemenations
+# Note: Requires BioPython to run
+# Note: argument_handler() will overwrite the .fasta file - be aware of this.
+# TODO: Wrap the ideal enzyme generating part of the code into a helper function
+# TODO: Clean up the print statements
+# TODO: Create a GUI interface
 import sys
 import time
 import itertools
@@ -254,7 +261,7 @@ if(len(sys.argv) == 3):
 elif(len(sys.argv) == 4):
 	twoPlasmidAnalysis(restrictionbatch, gene_sequence_two, gene_sequence_one)
 else:
-	print "The command line input was incorrect, please make it >>python Cutsultant7.py enzymes.txt seq1.fasta and if applicable add seq2.fasta after that"
+	print "The command line input was incorrect, please make it >>python Cutsultant.py enzymes.txt seq1.fasta and if applicable add seq2.fasta after that"
 
 print "Time to execute:", time.time() - start_time, "seconds"
 
